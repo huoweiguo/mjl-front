@@ -7,7 +7,7 @@ const baseUrl = '/cashin'
 export const submit = (data: any) => POST(baseUrl + '/payment/submit', data)
 
 // 获取订单状态
-export const getstatus = (sn: string) => POST(baseUrl + '/payment/status', { sn })
+export const getstatus = (sn: string, ref: string) => POST(baseUrl + '/payment/status', { sn, ref })
 
 // 获取订单信息
 export const getinfo = (sn: string) => POST(baseUrl + 'cashin/payment/info', { sn })

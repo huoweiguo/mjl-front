@@ -83,7 +83,7 @@ const timer = ref(null);
 
 // 获取订单状态
 const getOrderStatus = () => {
-  getstatus(orderId).then((res) => {
+  getstatus(orderId, route.query?.ref || '').then((res) => {
     if (res.data.status === 200) {
       orderState.value = res.data?.data;
       if (status.value) {

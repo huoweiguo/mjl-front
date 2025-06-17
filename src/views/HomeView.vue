@@ -25,7 +25,8 @@
       </div>
       <input class="payment_ipt" type="text" placeholder="Enter your wallet account number" v-model="acc" />
       <div class="home_input">
-        <input type="button" class="home_submit_btn" value="Submit" @click="accSubmit" />
+        <van-button :loading="naLoading" type="primary" class="home_submit_btn" loading-type="spinner"
+          loading-text="loading..." @click="accSubmit">Submit</van-button>
       </div>
       <div class="payment_attenion">
         After clicking submit, the official payment page of bkash will
@@ -66,7 +67,8 @@
         <input type="text" placeholder="Enter your TxnID number" v-model="txnId" />
       </div>
       <div class="home_input">
-        <input type="button" class="home_submit_btn" value="Submit" @click="resubmit" />
+        <van-button :loading="reLoading" class="home_submit_btn" loading-type="spinner" loading-text="loading..."
+          @click="resubmit">Submit</van-button>
       </div>
     </div>
 
@@ -77,15 +79,21 @@
 import { ref, onMounted, reactive } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { getOrderInfo, reOrder, submit } from '@/api/api.ts'
+import { showToast, showLoadingToast } from 'vant';
 const route = useRoute()
 const router = useRouter()
 const isPristine = ref(true)
 const loading = ref(false)
+// 非原生加载中
+const reLoading = ref(false)
+// 原生加载中
+const naLoading = ref(false)
 const acc = ref('')
 const info = reactive({
   amount: '0',
   idNumber: '',
   payLink: '',
+  ref: '',
   payMethod: [],
   platOrderSn: ''
 })
@@ -98,6 +106,10 @@ const toAccount = ref('')
 
 const setPayment = (val, obj) => {
   // 加载接口不能点击
+  showLoadingToast({
+    message: 'loading...',
+    forbidClick: true,
+  })
   if (!loading.value) {
     payment.value = val
     isPristine.value = obj.isPristine
@@ -108,6 +120,11 @@ const setPayment = (val, obj) => {
 }
 
 const resubmit = () => {
+  if (txnId.value.replace(/\s/g, '') === '') {
+    showToast('Enter your TxnID number')
+    return false
+  }
+  reLoading.value = true
   reOrder({
     sn,
     txnId: txnId.value,
@@ -115,29 +132,32 @@ const resubmit = () => {
     amount: info.amount,
     toAccount: toAccount.value
   }).then(res => {
+    reLoading.value = false
     if (res.data.status === 200) {
-      router.push(`/message/${info.platOrderSn}`)
+      router.push(`/message/${info.platOrderSn}?ref=${info.ref}`)
     } else {
-      alert(res.data.msg)
+      showToast(res.data.msg)
     }
   })
 }
 
 const accSubmit = () => {
   if (acc.value.replace(/\s/g, '').length === 0) {
-    alert('Enter your wallet account number')
+    showToast('Enter your wallet account number')
     return false
   }
+  naLoading.value = true
   submit({
     sn,
     code: payment.value,
     country: 'BD',
     acc: acc.value,
   }).then(res => {
+    naLoading.value = false
     if (res.data.status === 200) {
       window.location.href = res.data.data?.payLink
     } else {
-      alert(res.data.msg)
+      showToast(res.data.msg)
     }
   })
 }
@@ -147,11 +167,10 @@ const copyText = () => {
   const textToCopy = toAccount.value
   navigator.clipboard.writeText(textToCopy)
     .then(() => {
-      console.log('文本已成功复制到剪贴板');
+      showToast('Replicating Success');
     })
     .catch(err => {
-      console.error('无法复制文本: ', err);
-      toast.error("Copy failed, please manually copy");
+      showToast("Copy failed, please manually copy");
     });
 }
 
@@ -164,6 +183,12 @@ const orderInfo = (sn, bankCode) => {
       info.amount = data.amount
       info.payMethod = data.payMethod
       info.platOrderSn = data.platOrderSn
+      info.ref = data.ref
+      // 判断状态
+      if (data.orderStatus !== 'PENDING') {
+        router.push(`/message/${data.platOrderSn}?ref=${info.ref}`)
+        return false
+      }
       const currentPayMethod = data.payMethod.find(item => item.code === bankCode)
       if (currentPayMethod && Object.keys(currentPayMethod).length > 0) {
         isPristine.value = currentPayMethod.isPristine
@@ -175,11 +200,17 @@ const orderInfo = (sn, bankCode) => {
           }
         }
       }
+    } else {
+      showToast(res.data.msg)
     }
   })
 }
 
 onMounted(() => {
+  showLoadingToast({
+    message: 'loading...',
+    forbidClick: true,
+  })
   orderInfo(sn, bankCode)
 })
 </script>
@@ -301,6 +332,7 @@ onMounted(() => {
     padding: 0 0.2rem;
     box-sizing: border-box;
     outline: none;
+    font-size: 0.28rem;
 
     &::placeholder {
       font-size: 0.26rem;
@@ -387,6 +419,7 @@ onMounted(() => {
       padding: 0 0.22rem;
       outline: none;
       box-sizing: border-box;
+      font-size: 0.28rem;
     }
 
     .home_submit_btn {
