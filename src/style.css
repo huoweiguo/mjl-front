@@ -1,0 +1,13 @@
+* {
+  padding: 0;
+  margin: 0;
+  font-family: PingFangSC, PingFang SC;
+}
+html {
+  -webkit-user-select: none;
+  user-select: none;
+}
+body {
+  max-width: 750px;
+  margin: 0 auto;
+}
