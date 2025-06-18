@@ -24,8 +24,7 @@
         <em>ওয়ালেট অ্যাকাউন্ট নম্বর</em>
       </div>
       <input class="payment_ipt" type="text" placeholder="Enter your wallet account number" v-model="acc" />
-      <div class="contact_us">Contact us: <a
-          href="mailto:thethirdoceancompany@gmail.com">thethirdoceancompany@gmail.com</a> </div>
+
       <div class="home_input">
         <van-button :loading="naLoading" type="primary" class="home_submit_btn" loading-type="spinner"
           loading-text="loading..." @click="accSubmit">Submit</van-button>
@@ -68,8 +67,7 @@
       <div class="home_input">
         <input type="text" placeholder="Enter your TxnID number" v-model="txnId" />
       </div>
-      <div class="contact_us">Contact us: <a
-          href="mailto:thethirdoceancompany@gmail.com">thethirdoceancompany@gmail.com</a> </div>
+
       <div class="home_input">
         <van-button :loading="reLoading" class="home_submit_btn" loading-type="spinner" loading-text="loading..."
           @click="resubmit">Submit</van-button>
@@ -222,18 +220,6 @@ onMounted(() => {
 <style lang="scss" scoped>
 .home_container {
   padding: 0.4rem;
-
-  .contact_us {
-    padding: 0.2rem 0;
-    font-size: 0.28rem;
-    color: #252525;
-    font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
-    font-weight: 500;
-
-    a {
-      color: #252525;
-    }
-  }
 
   .home_container_amount {
     width: 100%;
