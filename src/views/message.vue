@@ -28,7 +28,7 @@
       </div>
       <div class="message-list-text">
         <span>Amount</span>
-        <span>PKR {{ orderState.amount }}</span>
+        <span>BDT {{ orderState.amount }}</span>
       </div>
       <div class="message-list-text" v-if="orderState.toAccount">
         <span>toAccount</span>
