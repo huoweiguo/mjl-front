@@ -107,17 +107,18 @@ const callbackNative = ref(false)
 const toAccount = ref('')
 
 const setPayment = (val, obj) => {
-  // 加载接口不能点击
-  showLoadingToast({
-    message: 'loading...',
-    forbidClick: true,
-  })
   if (!loading.value) {
     payment.value = val
     isPristine.value = obj.isPristine
     if (!obj.isPristine) {
       orderInfo(sn, val)
     }
+  } else {
+    // 加载接口不能点击
+    showLoadingToast({
+      message: 'Data not loaded yet, please click later',
+      forbidClick: true,
+    })
   }
 }
 
@@ -178,8 +179,13 @@ const copyText = () => {
 
 const orderInfo = (sn, bankCode) => {
   loading.value = true
+  let toast = showLoadingToast({
+    message: 'loading...',
+    forbidClick: true,
+  })
   getOrderInfo(sn, bankCode).then(res => {
     loading.value = false
+    toast.close()
     if (res.data.status === 200) {
       const data = res.data.data
       info.amount = data.amount
@@ -195,12 +201,12 @@ const orderInfo = (sn, bankCode) => {
       if (currentPayMethod && Object.keys(currentPayMethod).length > 0) {
         isPristine.value = currentPayMethod.isPristine
         toAccount.value = currentPayMethod.toAccount
-        if (!currentPayMethod.isPristine) {
-          if (!callbackNative.value) {
-            callbackNative.value = true
-            orderInfo(sn, currentPayMethod.code)
-          }
-        }
+        // if (!currentPayMethod.isPristine) {
+        //   if (!callbackNative.value) {
+        //     callbackNative.value = true
+        //     orderInfo(sn, currentPayMethod.code)
+        //   }
+        // }
       }
     } else {
       showToast(res.data.msg)
@@ -209,10 +215,6 @@ const orderInfo = (sn, bankCode) => {
 }
 
 onMounted(() => {
-  showLoadingToast({
-    message: 'loading...',
-    forbidClick: true,
-  })
   orderInfo(sn, bankCode)
 })
 </script>
