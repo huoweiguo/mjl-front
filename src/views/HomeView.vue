@@ -47,16 +47,20 @@
         <i>Step 1. Copy the beneficiary account number</i>
       </div>
       <div class="home_payment_number">
-        <span>আমি আজ খুশি</span>
+        <span>সংখ্যা</span>
         <div>
           <i>{{ toAccount }}</i>
           <img src="@/assets/images/copy-icon.png" @click="copyText" />
         </div>
       </div>
 
-      <div class="home_payment_box">
-        <p>আপনি যেই পরিমাণ রিচার্জ করতে চান, তা নগদ ট্রান্সফারের মাধ্যমে আমাদের কাছে পাঠান।</p>
-        <p>Transfer the amount you want to recharge to us via Nagad Transfer</p>
+      <div class="home_payment_box" v-if="payment === 'BKASH'">
+        <p>এই বিকাশ এজেন্ট অ্যাকাউন্টে অর্থ প্রদান করতে ক্যাশ আউট ব্যবহার করুন</p>
+        <p>To make a payment to this bKash agent account, please use the Cash Out option.</p>
+      </div>
+      <div class="home_payment_box" v-if="payment === 'NAGAD'">
+        <p>এই নগদ এজেন্ট অ্যাকাউন্টে অর্থ প্রদান করতে ক্যাশ আউট ব্যবহার করুন</p>
+        <p>To make a payment to this Nagad agent account, please use the Cash Out option.</p>
       </div>
 
       <div class="home_payment_step">
