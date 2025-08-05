@@ -64,7 +64,7 @@
       </div>
 
       <div class="home_payment_step">
-        <span>ধাপ 2. আপনার TxnID পূরণ করুন।ট</span>
+        <span>ধাপ 2. আপনার TxnID পূরণ করুন।</span>
         <i>Step 2. Please fill in your TxnID</i>
       </div>
 
