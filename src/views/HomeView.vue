@@ -5,8 +5,9 @@
       <p>অর্ডার আইডি: {{ info.platOrderSn }}</p>
     </div>
     <div class="home_payment">
-      <span>Payment channel</span>
-      <p>পেমেন্ট চ্যানেল {{ payment }} </p>
+      <span>পেমেন্ট চ্যানেল</span>
+<!--      <span>Payment channel</span>-->
+<!--      <p>পেমেন্ট চ্যানেল {{ payment }} </p>-->
     </div>
     <div class="home_payment_item">
       <div v-for="item in info.payMethod" :key="item.code" @click="setPayment(item.code, item)">
@@ -20,7 +21,7 @@
     <!--原生-->
     <div v-if="isPristine">
       <div class="payment_desc">
-        <span>Wallet Account Numbe</span>
+        <span>Wallet Account Number</span>
         <em>ওয়ালেট অ্যাকাউন্ট নম্বর</em>
       </div>
       <input class="payment_ipt" type="text" placeholder="Enter your wallet account number" v-model="acc" />
@@ -44,7 +45,7 @@
     <div v-else>
       <div class="home_payment_step">
         <span>ধাপ 1. সুবিধাভোগী অ্যাকাউন্ট নম্বরটি কপি করুন</span>
-        <i>Step 1. Copy the beneficiary account number</i>
+<!--        <i>Step 1. Copy the beneficiary account number</i>-->
       </div>
       <div class="home_payment_number">
         <span>সংখ্যা</span>
@@ -56,16 +57,16 @@
 
       <div class="home_payment_box" v-if="payment === 'BKASH'">
         <p>এই বিকাশ এজেন্ট অ্যাকাউন্টে অর্থ প্রদান করতে ক্যাশ আউট ব্যবহার করুন</p>
-        <p>To make a payment to this bKash agent account, please use the Cash Out option.</p>
+<!--        <p>To make a payment to this bKash agent account, please use the Cash Out option.</p>-->
       </div>
       <div class="home_payment_box" v-if="payment === 'NAGAD'">
         <p>এই নগদ এজেন্ট অ্যাকাউন্টে অর্থ প্রদান করতে ক্যাশ আউট ব্যবহার করুন</p>
-        <p>To make a payment to this Nagad agent account, please use the Cash Out option.</p>
+<!--        <p>To make a payment to this Nagad agent account, please use the Cash Out option.</p>-->
       </div>
 
       <div class="home_payment_step">
         <span>ধাপ 2. আপনার TxnID পূরণ করুন।</span>
-        <i>Step 2. Please fill in your TxnID</i>
+<!--        <i>Step 2. Please fill in your TxnID</i>-->
       </div>
 
       <div class="home_input">
@@ -73,8 +74,8 @@
       </div>
 
       <div class="home_input">
-        <van-button :loading="reLoading" class="home_submit_btn" loading-type="spinner" loading-text="loading..."
-          @click="resubmit">Submit</van-button>
+        <van-button :loading="reLoading" class="home_submit_btn" loading-type="spinner" loading-text="জমা দেওয়া হচ্ছে"
+          @click="resubmit">জমা দিন</van-button>
       </div>
     </div>
 
