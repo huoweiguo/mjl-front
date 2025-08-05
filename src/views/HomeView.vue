@@ -28,7 +28,7 @@
 
       <div class="home_input">
         <van-button :loading="naLoading" type="primary" class="home_submit_btn" loading-type="spinner"
-          loading-text="loading..." @click="accSubmit">Submit</van-button>
+          loading-text="জমা দেওয়া হচ্ছে" @click="accSubmit">জমা দিন</van-button>
       </div>
       <div class="payment_attenion">
         After clicking submit, the official payment page of bkash will
@@ -44,7 +44,7 @@
     <!--非原生-->
     <div v-else>
       <div class="home_payment_step">
-        <span>ধাপ 1. সুবিধাভোগী অ্যাকাউন্ট নম্বরটি কপি করুন</span>
+        <span>ধাপ 1. এজেন্ট অ্যাকাউন্ট নম্বরটি কপি করুন</span>
 <!--        <i>Step 1. Copy the beneficiary account number</i>-->
       </div>
       <div class="home_payment_number">
@@ -56,7 +56,7 @@
       </div>
 
       <div class="home_payment_box" v-if="payment === 'BKASH'">
-        <p>এই বিকাশ এজেন্ট অ্যাকাউন্টে অর্থ প্রদান করতে ক্যাশ আউট ব্যবহার করুন</p>
+        <p>এই নাগদ এজেন্ট অ্যাকাউন্টে অর্থ প্রদান করতে</p>
 <!--        <p>To make a payment to this bKash agent account, please use the Cash Out option.</p>-->
       </div>
       <div class="home_payment_box" v-if="payment === 'NAGAD'">
@@ -70,11 +70,17 @@
       </div>
 
       <div class="home_input">
-        <input type="text" placeholder="Enter your TxnID number" v-model="txnId" />
+        <input type="text" placeholder="Enter your TxnID number" v-model="txnId" @input="handleTxnIdChange" />
       </div>
 
       <div class="home_input">
-        <van-button :loading="reLoading" class="home_submit_btn" loading-type="spinner" loading-text="জমা দেওয়া হচ্ছে"
+        <van-button 
+          :loading="reLoading" 
+          :disabled="!isTxnIdValid"
+          class="home_submit_btn" 
+          :class="{ 'home_submit_btn--enabled': isTxnIdValid }"
+          loading-type="spinner" 
+          loading-text="জমা দেওয়া হচ্ছে"
           @click="resubmit">জমা দিন</van-button>
       </div>
     </div>
@@ -111,10 +117,33 @@ const payment = ref(route.query.bankCode || 'BKASH')
 const callbackNative = ref(false)
 const toAccount = ref('')
 
+// 添加TxnID校验状态
+const isTxnIdValid = ref(false)
+
+// TxnID校验函数
+const validateTxnId = (value) => {
+  const cleanValue = value.replace(/\s/g, '')
+  if (payment.value === 'BKASH') {
+    return cleanValue.length === 10
+  } else if (payment.value === 'NAGAD') {
+    return cleanValue.length === 8
+  }
+  return false
+}
+
+// 监听TxnID变化
+const handleTxnIdChange = () => {
+  isTxnIdValid.value = validateTxnId(txnId.value)
+}
+
 const setPayment = (val, obj) => {
   if (!loading.value) {
     payment.value = val
     isPristine.value = obj.isPristine
+    // 切换支付方式时重新校验TxnID
+    if (txnId.value) {
+      handleTxnIdChange()
+    }
     if (!obj.isPristine) {
       orderInfo(sn, val)
     }
@@ -221,6 +250,8 @@ const orderInfo = (sn, bankCode) => {
 
 onMounted(() => {
   orderInfo(sn, bankCode)
+  // 初始校验TxnID
+  handleTxnIdChange()
 })
 </script>
 
@@ -448,6 +479,21 @@ onMounted(() => {
       font-size: 0.3rem;
       color: #FFFFFF;
       line-height: 42px;
+      cursor: not-allowed;
+      transition: all 0.3s ease;
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      &.home_submit_btn--enabled {
+        opacity: 1;
+        cursor: pointer;
+        background: #175DCE;
+        border-color: #175DCE;
+        box-shadow: 0px 0px 10px 0px rgba(23, 93, 206, 0.3);
+      }
     }
   }
 }

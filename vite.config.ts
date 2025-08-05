@@ -18,6 +18,7 @@ export default defineConfig({
     proxy: {
       '/cashin': {
         target: 'https://bd.cashier28.com/', //设置代理目标
+        // target: 'http://127.0.0.1:9201/', //设置代理目标
         changeOrigin: true //是否改变请求源地址
         //rewrite: (path) => path.replace(/^\/api/, '') //将/api 替换成空字符串
       }
