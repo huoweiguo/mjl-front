@@ -2,12 +2,13 @@
   <div class="message-container">
     <div class="message-item-icon">
       <img src="../assets/images/check-icon.png" class="status-icon"
-        v-if="orderState.orderStatus?.toUpperCase() === 'SUCCESS'" />
+        v-if="(orderState.orderStatus?.toUpperCase() === 'SUCCESS' || orderState.orderStatus?.toUpperCase() === 'PART_SUC')" />
       <img src="../assets/images/loading-icon.png" class="status-icon"
         v-if="orderState.orderStatus?.toUpperCase() === 'PENDING'" />
       <img src="../assets/images/error.png"
         v-if="(orderState.orderStatus?.toUpperCase() === 'FAILED' || orderState.orderStatus?.toUpperCase() === 'CANCEL')" />
       <h2 v-if="orderState.orderStatus?.toUpperCase() === 'SUCCESS'">Payment successful</h2>
+      <h2 v-if="orderState.orderStatus?.toUpperCase() === 'PART_SUC'">Partial payment</h2>
       <h2 v-if="orderState.orderStatus?.toUpperCase() === 'PENDING'">Payment processing</h2>
       <h2
         v-if="(orderState.orderStatus?.toUpperCase() === 'FAILED' || orderState.orderStatus?.toUpperCase() === 'CANCEL')"
