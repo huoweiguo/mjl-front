@@ -57,10 +57,12 @@
 
       <div class="home_payment_box" v-if="payment === 'BKASH'">
         <p>এই নাগদ এজেন্ট অ্যাকাউন্টে অর্থ প্রদান করতে</p>
+        <p>ক্যাশ আউট  ব্যবহার করুন</p>
 <!--        <p>To make a payment to this bKash agent account, please use the Cash Out option.</p>-->
       </div>
       <div class="home_payment_box" v-if="payment === 'NAGAD'">
-        <p>এই নগদ এজেন্ট অ্যাকাউন্টে অর্থ প্রদান করতে ক্যাশ আউট ব্যবহার করুন</p>
+        <p>এই নাগদ এজেন্ট অ্যাকাউন্টে অর্থ প্রদান করতে</p>
+        <p>ক্যাশ আউট  ব্যবহার করুন</p>
 <!--        <p>To make a payment to this Nagad agent account, please use the Cash Out option.</p>-->
       </div>
 
