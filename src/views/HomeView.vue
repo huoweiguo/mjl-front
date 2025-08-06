@@ -56,23 +56,21 @@
       </div>
 
       <div class="home_payment_box" v-if="payment === 'BKASH'">
-        <p>এই বিকাশ এজেন্ট অ্যাকাউন্টে অর্থ প্রদান করতে</p>
-        <p>ক্যাশ আউট ব্যবহার করুন</p>
+        <p>এই বিকাশ এজেন্ট অ্যাকাউন্টে অর্থ প্রদান করতে ক্যাশ আউট ব্যবহার করুন<</p>
 <!--        <p>To make a payment to this bKash agent account, please use the Cash Out option.</p>-->
       </div>
       <div class="home_payment_box" v-if="payment === 'NAGAD'">
-        <p>এই নাগদ এজেন্ট অ্যাকাউন্টে অর্থ প্রদান করতে</p>
-        <p>ক্যাশ আউট  ব্যবহার করুন</p>
+        <p>এই নাগদ এজেন্ট অ্যাকাউন্টে অর্থ প্রদান করতে ক্যাশ আউট  ব্যবহার করুন</p>
 <!--        <p>To make a payment to this Nagad agent account, please use the Cash Out option.</p>-->
       </div>
 
       <div class="home_payment_step">
-        <span>ধাপ 2. আপনার TxnID পূরণ করুন।</span>
+        <span>ধাপ 2. আপনার লেনদেন আইডি পূরণ করুন।</span>
 <!--        <i>Step 2. Please fill in your TxnID</i>-->
       </div>
 
       <div class="home_input">
-        <input type="text" placeholder="Enter your TxnID number" v-model="txnId" @input="handleTxnIdChange" />
+        <input type="text" placeholder="আপনার লেনদেন আইডি নম্বর লিখুন" v-model="txnId" @input="handleTxnIdChange" />
       </div>
 
       <div class="home_input">
@@ -160,7 +158,7 @@ const setPayment = (val, obj) => {
 
 const resubmit = () => {
   if (txnId.value.replace(/\s/g, '') === '') {
-    showToast('Enter your TxnID number')
+    showToast('আপনার লেনদেন আইডি নম্বর লিখুন')
     return false
   }
   reLoading.value = true
@@ -206,10 +204,10 @@ const copyText = () => {
   const textToCopy = toAccount.value
   navigator.clipboard.writeText(textToCopy)
     .then(() => {
-      showToast('Replicating Success');
+      showToast('সফলভাবে কপি হয়েছে');
     })
     .catch(err => {
-      showToast("Copy failed, please manually copy");
+      showToast("কপি করা যায়নি, দয়া করে নিজে থেকে কপি করুন");
     });
 }
 
