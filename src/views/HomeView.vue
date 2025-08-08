@@ -44,11 +44,11 @@
     <!--非原生-->
     <div v-else>
       <div class="home_payment_step">
-        <span>ধাপ 1. এজেন্ট অ্যাকাউন্ট নম্বরটি কপি করুন</span>
+        <span>ধাপ ১: এজেন্ট নাম্বার কপি করে রাখুন</span>
 <!--        <i>Step 1. Copy the beneficiary account number</i>-->
       </div>
       <div class="home_payment_number">
-        <span>সংখ্যা</span>
+        <span>এজেন্ট নাম্বার (Cash Out এর জন্য):</span>
         <div>
           <i>{{ toAccount }}</i>
           <img src="@/assets/images/copy-icon.png" @click="copyText" />
@@ -65,7 +65,8 @@
       </div>
 
       <div class="home_payment_step">
-        <span>ধাপ 2. আপনার লেনদেন আইডি পূরণ করুন।</span>
+        <span v-if="payment === 'BKASH'">ধাপ ২: bKash অ্যাপ থেকে পাওয়া Txn ID টি লিখুন</span>
+        <span v-if="payment === 'NAGAD'">ধাপ ২: Nagad অ্যাপ থেকে পাওয়া Txn ID টি লিখুন</span>
 <!--        <i>Step 2. Please fill in your TxnID</i>-->
       </div>
 
